@@ -77,14 +77,15 @@ public class ConcreteStrategyStandardItem implements Strategy {
         return DEGRADATION_FACTOR_NIL;
     }
 
-    private boolean isConjured(Item item) {
-        return nameMatches(item, "Conjured");
-    }
 
     private void increaseQuality(Item item) {
         if (item.quality < HIGHEST_QUALITY) {
             item.quality = item.quality + 1;
         }
+    }
+
+    private boolean isConjured(Item item) {
+        return nameMatches(item, "Conjured");
     }
 
     private boolean isNotLegendary(Item item) {
