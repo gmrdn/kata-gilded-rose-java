@@ -15,11 +15,11 @@ class GildedRose {
     }
 
     private void updateItemQuality(Item item) {
-        if (item.name.equals("Aged Brie")
-                || item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+        if (nameMatches(item, "Aged Brie")
+                || nameMatches(item, "Backstage passes to a TAFKAL80ETC concert")) {
                     increaseQuality(item);
 
-                    if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+                    if (nameMatches(item, "Backstage passes to a TAFKAL80ETC concert")) {
                         if (item.sellIn < 11) {
                             increaseQuality(item);
                         }
@@ -35,16 +35,20 @@ class GildedRose {
         decreaseSellin(item);
 
         if (passedSellIn(item)) {
-            if (item.name.equals("Aged Brie")) {
+            if (nameMatches(item, "Aged Brie")) {
                 increaseQuality(item);
             } else {
-                if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+                if (nameMatches(item, "Backstage passes to a TAFKAL80ETC concert")) {
                     item.quality = 0;
                 } else {
                     decreaseQuality(item);
                 }
             }
         }
+    }
+
+    private boolean nameMatches(Item item, String s) {
+        return item.name.contains(s);
     }
 
     private boolean passedSellIn(Item item) {
@@ -59,7 +63,11 @@ class GildedRose {
 
     private void decreaseQuality(Item item) {
         if (isNotLegendary(item) && item.quality > 0) {
-            item.quality = item.quality - 1;
+            if (nameMatches(item, "Conjured")) {
+                item.quality = item.quality - 2;
+            } else {
+                item.quality = item.quality - 1;
+            }
         }
     }
 
@@ -70,6 +78,6 @@ class GildedRose {
     }
 
     private boolean isNotLegendary(Item item) {
-        return !item.name.equals("Sulfuras, Hand of Ragnaros");
+        return !nameMatches(item, "Sulfuras, Hand of Ragnaros");
     }
 }
