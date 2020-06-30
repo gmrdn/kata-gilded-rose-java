@@ -18,36 +18,45 @@ class GildedRose {
     }
 
     private void updateItemQuality(Item item) {
-        if (nameMatches(item, "Aged Brie")
-                || nameMatches(item, "Backstage passes to a TAFKAL80ETC concert")) {
+
+        if (itemImprovingOverTime(item)) {
+            increaseQuality(item);
+        }
+        else if (itemImprovingUntilExpiration(item)) {
+            increaseQuality(item);
+            if (itemImprovingUntilExpiration(item)) {
+                if (item.sellIn < 11) {
                     increaseQuality(item);
-
-                    if (nameMatches(item, "Backstage passes to a TAFKAL80ETC concert")) {
-                        if (item.sellIn < 11) {
-                            increaseQuality(item);
-                        }
-
-                        if (item.sellIn < 6) {
-                            increaseQuality(item);
-                        }
-                    }
-                } else {
+                }
+                if (item.sellIn < 6) {
+                    increaseQuality(item);
+                }
+            }
+        } else {
             decreaseQuality(item);
         }
 
         decreaseSellIn(item);
 
         if (passedSellIn(item)) {
-            if (nameMatches(item, "Aged Brie")) {
+            if (itemImprovingOverTime(item)) {
                 increaseQuality(item);
             } else {
-                if (nameMatches(item, "Backstage passes")) {
+                if (itemImprovingUntilExpiration(item)) {
                     item.quality = 0;
                 } else {
                     decreaseQuality(item);
                 }
             }
         }
+    }
+
+    private boolean itemImprovingUntilExpiration(Item item) {
+        return nameMatches(item, "Backstage passes");
+    }
+
+    private boolean itemImprovingOverTime(Item item) {
+        return nameMatches(item, "Aged Brie");
     }
 
     private boolean nameMatches(Item item, String s) {
