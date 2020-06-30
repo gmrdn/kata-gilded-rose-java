@@ -23,10 +23,10 @@ public class ConcreteStrategyConjuredItem implements Strategy {
     }
 
     private int getDegradationFactor(Item item) {
+        if (item.quality > 1) {
+            return 2;
+        }
         if (item.quality > 0) {
-            if (item.quality > 1) {
-                return 2;
-            }
             return 1;
         }
         return 0;
