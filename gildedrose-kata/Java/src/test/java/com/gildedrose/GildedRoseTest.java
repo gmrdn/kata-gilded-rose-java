@@ -32,7 +32,7 @@ class GildedRoseTest {
 
     @Test
     void qualityOf50Becomes48whenSellinPassed() {
-        Item[] items = new Item[] { new Item("foo", 0, 50) };
+        Item[] items = new Item[] { new Item("foo", -1, 50) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(48, app.items[0].quality);
@@ -80,11 +80,46 @@ class GildedRoseTest {
     }
 
     @Test
+    void agedBrieIncreasesQualityTwiceAfterSellin() {
+        Item[] items = new Item[] { new Item("Aged Brie", -1, 0) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(2, app.items[0].quality);
+    }
+
+
+
+    @Test
     void qualityIsNeverOver50() {
-        Item[] items = new Item[] { new Item("Aged Brie", 2, 50) };
+        Item[] items = new Item[] { new Item("Aged Brie", 2, 50), new Item("Backstage passes to a TAFKAL80ETC concert", 2, 50) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(50, app.items[0].quality);
+        assertEquals(50, app.items[1].quality);
+    }
+
+    @Test
+    void backstagePassesIncreasesQualityBy2When10daysFromSellin() {
+        Item[] items = new Item[] { new Item("Backstage passes to a TAFKAL80ETC concert", 10, 0) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(2, app.items[0].quality);
+    }
+
+    @Test
+    void backstagePassesIncreasesQualityBy3When5daysFromSellin() {
+        Item[] items = new Item[] { new Item("Backstage passes to a TAFKAL80ETC concert", 5, 0) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(3, app.items[0].quality);
+    }
+
+    @Test
+    void backstagePassesDromsQualityTo0AfterConcert() {
+        Item[] items = new Item[] { new Item("Backstage passes to a TAFKAL80ETC concert", 0, 50) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(0, app.items[0].quality);
     }
 
 
