@@ -87,8 +87,6 @@ class GildedRoseTest {
         assertEquals(2, app.items[0].quality);
     }
 
-
-
     @Test
     void qualityIsNeverOver50() {
         Item[] items = new Item[] { new Item("Aged Brie", 2, 50), new Item("Backstage passes to a TAFKAL80ETC concert", 2, 50) };
@@ -107,11 +105,27 @@ class GildedRoseTest {
     }
 
     @Test
+    void backstagePassesIncreasesQualityBy2When10daysFromSellinUnless50() {
+        Item[] items = new Item[] { new Item("Backstage passes to a TAFKAL80ETC concert", 10, 49) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(50, app.items[0].quality);
+    }
+
+    @Test
     void backstagePassesIncreasesQualityBy3When5daysFromSellin() {
         Item[] items = new Item[] { new Item("Backstage passes to a TAFKAL80ETC concert", 5, 0) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(3, app.items[0].quality);
+    }
+
+    @Test
+    void backstagePassesIncreasesQualityBy3When5daysFromSellinUnless50() {
+        Item[] items = new Item[] { new Item("Backstage passes to a TAFKAL80ETC concert", 5, 48) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(50, app.items[0].quality);
     }
 
     @Test
